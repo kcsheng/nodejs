@@ -1,4 +1,3 @@
-const { Console } = require("console");
 const fs = require("fs");
 
 // read a file
