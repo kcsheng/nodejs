@@ -4,10 +4,18 @@ const express = require("express"); // returns a function
 const app = express();
 
 // register view engine
-app.set("view engine", "ejs"); // will automatically look for .ejs files in views
+app.set("view engine", "ejs"); 
 
 // listen for requests
-app.listen(3000); // This also creates an instance of server (amazing!)
+app.listen(3000); 
+
+app.use((req, res, next) => {
+  console.log('new request made:')
+  console.log('host: ', req.hostname);
+  console.log('path: ', req.path);
+  console.log('method: ', req.method);
+  next(); // tells the middleware to move on.
+});
 
 // Now we can respond to url
 app.get("/", (req, res) => {
