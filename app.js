@@ -11,18 +11,18 @@ app.listen(3000); // This also creates an instance of server (amazing!)
 
 // Now we can respond to url
 app.get("/", (req, res) => {
-  res.render("index"); // This will render a view. Specify where the ejs file is.
+  res.render("index", { title: "Home" });
 });
 
 app.get("/about", (req, res) => {
-  res.render("about");
+  res.render("about", { title: "About" });
 });
 
 app.get("/blogs/create", (req, res) => {
-  res.render("create");
+  res.render("create", { title: "Create" });
 });
 
 // 404 page (needs to be at the bottom of all routes)
 app.use((req, res) => {
-  res.status(404).render("404");
+  res.status(404).render("404", { title: "404" });
 });
