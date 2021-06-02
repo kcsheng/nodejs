@@ -11,7 +11,22 @@ app.listen(3000); // This also creates an instance of server (amazing!)
 
 // Now we can respond to url
 app.get("/", (req, res) => {
-  res.render("index", { title: "Home" });
+  const blogs = [
+    {
+      title: "How to greet to people",
+      snippet: "first, be polite, second, be nice, third..",
+    },
+    {
+      title: "How to love people",
+      snippet: "first, be gentle, second, be good, third..",
+    },
+    {
+      title: "How to hate people",
+      snippet: "first, be nasty, second, be bad, third..",
+    },
+  ];
+
+  res.render("index", { title: "Home", blogs }); // blogs is shorthand for blogs: blogs
 });
 
 app.get("/about", (req, res) => {
