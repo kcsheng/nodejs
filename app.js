@@ -20,65 +20,25 @@ app.set("view engine", "ejs");
 app.use(express.static("public")); // express middleware 
 app.use(morgan("dev"));
 
-// Sandbox routes to test out mongoose and mongodb
-app.get("/add-blog", (req, res) => {
-  const blog = new Blog({
-    title: "How to make a sandwich.",
-    snippet: "This is about making a sandwich.",
-    body: "step one: do this, step two: do that..."
-  })
-  blog.save()
-    .then((result) => {
-      res.send(result);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-});
-
-app.get("/all-blogs", (req, res) => {
-  Blog.find()
-    .then((result) => {
-      res.send(result);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-})
-
-app.get("/second-blog", (req, res) => {
-  Blog.findById("60b833effd7fbb9190a7a33c")
-    .then((result) => {
-      res.send(result);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-})
-
-
-
+// generic routes
 app.get("/", (req, res) => {
-  const blogs = [
-    {
-      title: "How to greet to people",
-      snippet: "first, be polite, second, be nice, third..",
-    },
-    {
-      title: "How to love people",
-      snippet: "first, be gentle, second, be good, third..",
-    },
-    {
-      title: "How to hate people",
-      snippet: "first, be nasty, second, be bad, third..",
-    },
-  ];
-
-  res.render("index", { title: "Home", blogs }); // blogs is shorthand for blogs: blogs
+    res.redirect("/blogs")
 });
 
 app.get("/about", (req, res) => {
   res.render("about", { title: "About" });
+});
+
+// Blog routes
+
+app.get("/blogs", (req, res) => {
+  Blog.find().sort({ createdAt: -1 })
+    .then((result) => {
+      res.render("index", { title: "All Blogs", blogs: result })
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 app.get("/blogs/create", (req, res) => {
