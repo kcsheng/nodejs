@@ -1,15 +1,16 @@
 const express = require("express"); 
 const morgan = require("morgan");
 const mongoose = require("mongoose");
+const Blog = require("./models/blog")
 
 
 const app = express();
 
 // connect to mongo db
-const dbURI = "mongodb+srv://kcsheng:80Bostus0612@clusternodejs.o5o1a.mongodb.net/notejs?retryWrites=true&w=majority"
+const dbURI = "mongodb+srv://kcsheng:80Bostus0612@clusternodejs.o5o1a.mongodb.net/nodejs?retryWrites=true&w=majority"
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then((result) => { app.listen(3000); })
-  .catch((err) => { console.log(err); })
+  .catch((err) => { console.log(err); }) // the connection returns a promise.
 
 app.set("view engine", "ejs"); 
 
@@ -18,6 +19,24 @@ app.set("view engine", "ejs");
 // middleware and static files
 app.use(express.static("public")); // express middleware 
 app.use(morgan("dev"));
+
+// Sandbox routes to test out mongoose and mongodb
+app.get("/add-blog", (req, res) => {
+  const blog = new Blog({
+    title: "How to make a sandwich.",
+    snippet: "This is about making a sandwich.",
+    body: "step one: do this, step two: do that..."
+  })
+  blog.save()
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+});
+
+
 
 app.get("/", (req, res) => {
   const blogs = [

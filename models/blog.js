@@ -17,5 +17,5 @@ const blogSchema = new Schema({
   }
 }, { timestamps: true });
 
-const Blog = mongoose.model("Blog", blogSchema); // Look for 'blogs' in the database nad hooks up with schema
+const Blog = mongoose.model("Blog", blogSchema); // Look for 'blogs' in the database and hooks up with schema
 module.exports = Blog;
