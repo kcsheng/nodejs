@@ -62,6 +62,28 @@ app.get("/blogs/create", (req, res) => {
   res.render("create", { title: "Create" });
 });
 
+app.get("/blogs/:id", (req, res) => {
+  const id = req.params.id;
+  Blog.findById(id)
+    .then((result) => {
+      res.render("details", { blog: result, title: "Blog details" });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.delete("/blogs/:id", (req, res) => {
+  const id = req.params.id;
+  Blog.findByIdAndDelete(id)
+    .then((result) => {
+      res.json({ redirect: "/blogs" });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 // 404 page (needs to be at the bottom of all routes)
 app.use((req, res) => {
   res.status(404).render("404", { title: "404" });
